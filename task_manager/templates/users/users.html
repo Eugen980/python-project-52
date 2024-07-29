@@ -18,12 +18,14 @@
 </thead>
 <tbody>
     {% for user in users %}
+    {% if user.username != 'admin' %}
     <tr>
       <td>{{user.id}}</td>
       <td>{{user.username}}</td>
-      <td>{{user.full_name}}</td>
+      <td>{{user.get_full_name}}</td>
       <td>{{user.created_at}}</td>
     </tr>
+    {% endif %}
     {% endfor %}
 
 {% endblock %}

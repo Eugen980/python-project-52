@@ -15,9 +15,13 @@
 </head>
 <body>
     <header>
-        {% include 'includes/navbar.html' %}
+        {% if user.is_authenticated %}
+        {% include 'includes/navbar_user.html' %}
+        {% else %}
+        {% include 'includes/navbar_guest.html' %}
+        {% endif %}
     </header>
-    <main>
+    <main class="d-flex flex-column min-vh-100">
         {% block content %}
         {% endblock %}
     </main>

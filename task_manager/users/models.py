@@ -1,9 +1,8 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 
-class Users(models.Model):
-    username = models.CharField(max_length=50)
-    full_name = models.CharField(max_length=50)
+class Users(AbstractUser):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
