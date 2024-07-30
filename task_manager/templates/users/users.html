@@ -18,12 +18,17 @@
 </thead>
 <tbody>
     {% for user in users %}
-    {% if user.username != 'admin' %}
+    {% if user.username != 'Admin' %}
     <tr>
       <td>{{user.id}}</td>
       <td>{{user.username}}</td>
       <td>{{user.get_full_name}}</td>
       <td>{{user.created_at}}</td>
+      <td>
+        <a href="{% url 'update_user' pk=user.id %}">Изменить</a>
+        <br>
+        <a href="">Удалить</a>
+      </td>
     </tr>
     {% endif %}
     {% endfor %}

@@ -23,6 +23,10 @@
     </header>
     <main class="d-flex flex-column min-vh-100">
         {% block content %}
+        {% if masseges %}
+        {% for massege in masseges}
+        <div">{{ massege }}</div>
+        {% endif %}
         {% endblock %}
     </main>
 </body>
