@@ -34,9 +34,9 @@ class UpdateUserView(RulesMixin, SuccessMessageMixin, UpdateView):
 
 
 class DeleteUserView(DeleteProtectionMixin,
-             RulesMixin,
-             SuccessMessageMixin,
-             DeleteView):
+                     RulesMixin,
+                     SuccessMessageMixin,
+                     DeleteView):
     model = User
     template_name = 'users/delete.html'
     success_url = reverse_lazy('users')
