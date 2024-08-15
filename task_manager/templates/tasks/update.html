@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% load django_bootstrap5 %}
+{% load i18n %}
+
+{% block title %}
+  {% trans 'Task Manager' %}
+{% endblock %}
+
+{% block content %}
+<div class="container wrapper flex-grow-1">
+    <h1 class="my-4">
+        {% trans 'Edit Task' %}
+    </h1>
+    <form method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button class="btn btn-primary" type="submit">{% trans 'Edit' %}</button>
+    </form>
+</div>
+{% endblock content %}
