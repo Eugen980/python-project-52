@@ -34,6 +34,8 @@ make dev
 ***
 ### Демонтсрация работы программы
 
+[_https://python-project-52-0wft.onrender.com_](https://python-project-52-0wft.onrender.com)
+
 ![alt text](https://github.com/Eugen980/LuxE/blob/main/2024-08-16_18-53-17.png)
 
 ![alt text](https://github.com/Eugen980/LuxE/blob/main/2024-08-16_19-00-02.png)
