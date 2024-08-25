@@ -10,14 +10,14 @@ from django.utils.translation import gettext_lazy as _
 
 from .models import Task
 from .forms import TaskForm
-from .filters import TaskFilter
+from .filters import TaskFilterSet
 from task_manager.mixins import TaskDeleteProtection
 
 
 class IndexTaskView(LoginRequiredMixin, FilterView):
     model = Task
     template_name = 'tasks/index.html'
-    filterset_class = TaskFilter
+    filterset_class = TaskFilterSet
     context_object_name = 'tasks'
 
     def get_queryset(self):

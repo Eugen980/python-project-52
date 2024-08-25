@@ -1,18 +1,8 @@
-from django.db import models
-from django.contrib.auth.models import AbstractUser
-from django.utils.translation import gettext as _
-# Create your models here.
+from django.contrib.auth import get_user_model
 
 
-class User(AbstractUser):
+def get_full_name(self):
+    return f'{self.first_name} {self.last_name}'
 
-    first_name = models.CharField(max_length=150,
-                                  verbose_name=_('First name'))
 
-    last_name = models.CharField(max_length=150,
-                                 verbose_name=_('Last name'))
-
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.get_full_name()
+get_user_model().add_to_class('__str__', get_full_name)

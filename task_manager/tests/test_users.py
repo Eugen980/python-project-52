@@ -1,7 +1,7 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 
-from task_manager.users.models import User
+from django.contrib.auth import get_user_model
 
 
 class CRUDTest(TestCase):
@@ -16,7 +16,7 @@ class CRUDTest(TestCase):
         password = 'SuperPas$$word'
 
         response = self.client.post(
-            reverse('user_create'),
+            reverse('create_user'),
             data={'username': username,
                   'first_name': first_name,
                   'last_name': last_name,
@@ -26,7 +26,7 @@ class CRUDTest(TestCase):
 
         self.assertRedirects(response, reverse('login'), 302)
 
-        new_user = User.objects.get(username=username)
+        new_user = get_user_model().objects.get(username=username)
 
         self.assertEqual(new_user.username, username)
         self.assertEqual(new_user.first_name, first_name)
@@ -39,7 +39,7 @@ class CRUDTest(TestCase):
         password = 'SuperPas$$word'
 
         response = self.client.post(
-            reverse('user_create'),
+            reverse('create_user'),
             data={'username': username,
                   'first_name': first_name,
                   'last_name': last_name,
@@ -49,8 +49,8 @@ class CRUDTest(TestCase):
 
         self.assertRedirects(response, reverse('login'), 302)
 
-        new_user = User.objects.get(username=username)
-        all_users = User.objects.all()
+        new_user = get_user_model().objects.get(username=username)
+        all_users = get_user_model().objects.all()
 
         self.assertIn(new_user, all_users)
 
@@ -62,7 +62,7 @@ class CRUDTest(TestCase):
         password = 'OlegOleg228'
 
         self.client.post(
-            reverse('user_create'),
+            reverse('create_user'),
             data={'username': username,
                   'first_name': first_name,
                   'last_name': last_name,
@@ -76,11 +76,11 @@ class CRUDTest(TestCase):
                   'password': password}
         )
 
-        user = User.objects.get(username=username)
+        user = get_user_model().objects.get(username=username)
 
         changed_first_name = 'Ivan'
         response = self.client.post(
-            reverse('user_update', kwargs={'pk': user.pk}),
+            reverse('update_user', kwargs={'pk': user.pk}),
             data={'username': username,
                   'first_name': changed_first_name,
                   'last_name': last_name,
@@ -94,13 +94,13 @@ class CRUDTest(TestCase):
         self.assertEqual(user.first_name, changed_first_name)
 
     def test_user_delete(self):
-        username = 'Batman'
-        first_name = 'Bruce'
-        last_name = 'Wayne'
-        password = 'Superman'
+        username = 'SuperUser'
+        first_name = 'Bart'
+        last_name = 'Simpson'
+        password = 'Superpa$$word'
 
         self.client.post(
-            reverse('user_create'),
+            reverse('create_user'),
             data={'first_name': first_name,
                   'last_name': last_name,
                   'username': username,
@@ -114,13 +114,13 @@ class CRUDTest(TestCase):
                   'password': password}
         )
 
-        user = User.objects.get(username=username)
+        user = get_user_model().objects.get(username=username)
 
         response = self.client.post(
-            reverse('user_delete', kwargs={'pk': user.pk})
+            reverse('delete_user', kwargs={'pk': user.pk})
         )
 
         self.assertRedirects(response, reverse('users'), 302)
 
-        deleted_user = User.objects.filter(id=user.pk)
+        deleted_user = get_user_model().objects.filter(id=user.pk)
         self.assertNotIn(user.pk, deleted_user)

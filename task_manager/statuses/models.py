@@ -1,15 +1,9 @@
-from django.db import models
 from django.utils.translation import gettext as _
-# Create your models here.
+from base.models import BaseModel, BaseModelName
 
 
-class Status(models.Model):
-    """Status model"""
-
-    name = models.CharField(max_length=20, unique=True,
-                            verbose_name=_('Name'))
-
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.name
+class Status(BaseModel, BaseModelName):
+    class Meta:
+        verbose_name = _('Status')
+        verbose_name_plural = _('Statuses')
+        ordering = ['-created']

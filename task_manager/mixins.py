@@ -1,29 +1,31 @@
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.db.models import ProtectedError
-from django.contrib.auth.mixins import UserPassesTestMixin
+from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.utils.translation import gettext_lazy as _
+from django.urls import reverse
 
 
-class RulesMixin:
-    def has_permission(self) -> bool:
-        return self.get_object().pk == self.request.user.pk
+class CustomLoginRequiredMixin(LoginRequiredMixin):
+    def handle_no_permission(self):
+        messages.error(self.request,
+                       _('You are not logged in! Please log in.'))
+        return redirect(reverse('login'))
 
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
+
+class LoginRequiredAndUserSelfCheckMixin(CustomLoginRequiredMixin,
+                                         UserPassesTestMixin):
+    def test_func(self):
+        return self.request.user == self.get_object()
+
+    def handle_no_permission(self):
+        if not self.request.user.is_authenticated:
+            return super().handle_no_permission()
+        else:
             messages.error(
-                request,
-                messages.error(self.request, _('You are not authorized!'))
-            )
-            return redirect('login')
-
-        elif not self.has_permission():
-            messages.error(
-                request,
-                messages.error(self.request, _("You haven't permission!"))
-            )
-            return redirect('users')
-        return super().dispatch(request, *args, **kwargs)
+                self.request,
+                _('You do not have permission to modify another user.'))
+            return redirect('user_list')
 
 
 class DeleteProtectionMixin:

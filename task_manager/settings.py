@@ -85,8 +85,6 @@ if DATABASE_URL:
     )
 
 
-AUTH_USER_MODEL = "users.User"
-
 LOGIN_URL = 'login'
 LOGOUT_URL = 'home'
 LOGIN_REDIRECT_URL = 'home'
