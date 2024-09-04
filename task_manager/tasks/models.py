@@ -47,6 +47,5 @@ class Task(BaseModelName, BaseModel):
 
 
 class LabelAndTaskRelation(models.Model):
-    """Model of relations between tasks and labels"""
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
     label = models.ForeignKey(Label, on_delete=models.PROTECT)
