@@ -37,9 +37,16 @@ class Task(BaseModelName, BaseModel):
                                  verbose_name=_('Executor'))
 
     labels = models.ManyToManyField(Label,
-                                    related_name='labels',
-                                    verbose_name=_('labels'),
-                                    blank=True,)
+                                    blank=True,
+                                    through='LabelAndTaskRelation',
+                                    related_name='label',
+                                    verbose_name=_('Labels'))
 
     def __str__(self):
         return self.name
+
+
+class LabelAndTaskRelation(models.Model):
+    """Model of relations between tasks and labels"""
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    label = models.ForeignKey(Label, on_delete=models.PROTECT)
