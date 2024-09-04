@@ -26,7 +26,7 @@ class IndexTaskView(LoginRequiredMixin, FilterView):
 
 class CreateTaskView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Task
-    form_class = TaskForm
+    fields = ['name', 'description', 'status', 'executor', 'labels']
     template_name = 'tasks/create.html'
     success_url = reverse_lazy('tasks')
     success_message = _('Task was created successfully')
